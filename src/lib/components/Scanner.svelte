@@ -38,7 +38,7 @@
 						subtitle: book.volumeInfo.subtitle,
 						author: book.volumeInfo.authors?.join(', '),
 						description: book.volumeInfo.description,
-						thumbnailUrl: book.volumeInfo.imageLinks.thumbnail,
+						thumbnailUrl: book.volumeInfo.imageLinks?.thumbnail,
 						publishedDate: book.volumeInfo.publishedDate
 					});
 				}
