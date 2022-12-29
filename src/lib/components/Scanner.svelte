@@ -36,7 +36,7 @@
 						isbn,
 						title: book.volumeInfo.title,
 						subtitle: book.volumeInfo.subtitle,
-						author: book.volumeInfo.authors.join(', '),
+						author: book.volumeInfo.authors?.join(', '),
 						description: book.volumeInfo.description,
 						thumbnailUrl: book.volumeInfo.imageLinks.thumbnail,
 						publishedDate: book.volumeInfo.publishedDate
