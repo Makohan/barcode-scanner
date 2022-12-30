@@ -23,13 +23,20 @@
 				async (res) => {
 					if (!res.ok || res.status !== 200) {
 						audioError.play();
-						alert('本の情報を取得できませんでした。');
+						alert('APIが失敗しました。');
 						return;
 					}
 
 					audioOk.play();
 
-					const book = (await res.json()).items[0];
+					const parsed =await res.json() 
+					if (!parsed.items) {
+						audioError.play();
+						alert('本の情報を取得できませんでした。');
+						return;
+					}
+
+					const book = parsed.items[0];
 					console.log(book);
 
 					books.add({
