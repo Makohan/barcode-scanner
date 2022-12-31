@@ -33,23 +33,23 @@
 					audioOk.play();
 
 					const parsed = await res.json();
+					let book;
 					if (!parsed.items) {
 						audioError.play();
 						alert('本の情報を取得できませんでした。');
-						return;
+					} else {
+						book = parsed.items[0];
 					}
-
-					const book = parsed.items[0];
 					console.log(book);
 
 					books.add({
 						isbn,
-						title: book.volumeInfo.title,
-						subtitle: book.volumeInfo.subtitle,
-						author: book.volumeInfo.authors?.join(', '),
-						description: book.volumeInfo.description,
-						thumbnailUrl: book.volumeInfo.imageLinks?.thumbnail,
-						publishedDate: book.volumeInfo.publishedDate
+						title: book?.volumeInfo?.title,
+						subtitle: book?.volumeInfo?.subtitle,
+						author: book?.volumeInfo?.authors?.join(', '),
+						description: book?.volumeInfo?.description,
+						thumbnailUrl: book?.volumeInfo?.imageLinks?.thumbnail,
+						publishedDate: book?.volumeInfo?.publishedDate
 					});
 				}
 			);
@@ -69,7 +69,7 @@
 					type: 'LiveStream',
 					target: document.querySelector('#container'),
 					constraints: {
-						width: Math.max(innerWidth, 760)
+						width: Math.min(innerWidth, 760)
 					}
 				},
 				constraints: {
@@ -133,7 +133,8 @@
 
 <div id="container" class="relative">
 	{#if showLeadMessage}
-		<p transition:fade
+		<p
+			transition:fade
 			class="absolute w-fit bottom-8 left-0 right-0 mx-auto bg-green-400 opacity-75 text-center p-2 rounded-lg"
 		>
 			本のバーコードをスキャンしてください

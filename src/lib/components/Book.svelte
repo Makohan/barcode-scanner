@@ -6,8 +6,8 @@
 
 <div>
 	<p>{book.isbn}</p>
-	<p>{book.title}</p>
-	<p>{book.publishedDate}</p>
+	<p>{book.title || '(不明)'}</p>
+	<p>{book.publishedDate || '(不明)'}</p>
 	<img src={book.thumbnailUrl} alt={book.title} />
 </div>
 
