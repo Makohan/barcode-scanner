@@ -10,6 +10,10 @@
 
 <section>
 	<Scanner />
-	<CsvDownloadButton />
-	<BookList />
+	<div class="px-2">
+		<CsvDownloadButton />
+		<div class="mt-4">
+			<BookList />
+		</div>
+	</div>
 </section>

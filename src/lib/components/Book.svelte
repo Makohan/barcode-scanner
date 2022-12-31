@@ -13,7 +13,7 @@
 
 <style>
 	div {
-		width: 120px;
+		width: 128px;
 	}
 
 	p {

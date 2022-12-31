@@ -55,4 +55,9 @@
 	}
 </script>
 
-<button type="button" on:click={download}>CSVダウンロード</button>
+<button
+	type="button"
+	on:click={download}
+	class="border p-2 rounded hover:bg-gray-100 disabled:hover:bg-white disabled:text-gray-300"
+	disabled={$books.length === 0}>CSVダウンロード</button
+>

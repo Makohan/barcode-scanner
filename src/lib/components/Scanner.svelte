@@ -29,7 +29,7 @@
 
 					audioOk.play();
 
-					const parsed =await res.json() 
+					const parsed = await res.json();
 					if (!parsed.items) {
 						audioError.play();
 						alert('本の情報を取得できませんでした。');
@@ -51,7 +51,7 @@
 				}
 			);
 		} catch (error) {
-			console.error(error);
+			console.log(error);
 		} finally {
 			setTimeout(() => {
 				fetching = false;
@@ -64,7 +64,10 @@
 			{
 				inputStream: {
 					type: 'LiveStream',
-					target: document.querySelector('#container')
+					target: document.querySelector('#container'),
+					constraints: {
+						width: innerWidth
+					}
 				},
 				constraints: {
 					facingMode: 'environment'
@@ -106,7 +109,11 @@
 			addAndSearch(barcode);
 		});
 	});
+
+	let innerWidth: number;
 </script>
+
+<svelte:window bind:innerWidth />
 
 <audio bind:this={audioOk}>
 	<source src="./audio/ok.mp3" type="audio/mp3" />
@@ -117,12 +124,11 @@
 </audio>
 
 <div id="container" />
-<p id="process" />
-<p id="result" />
 
 <style>
 	:global(div > video) {
 		display: block;
+		top: 0;
 		left: 0;
 	}
 	:global(.drawingBuffer) {

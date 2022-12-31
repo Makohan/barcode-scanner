@@ -7,22 +7,10 @@
 	$: displayBooks = [...$books].reverse();
 </script>
 
-<section>
+<section class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-w-fit gap-4">
 	{#each displayBooks as book (book.isbn)}
 		<div animate:flip={{ duration: 600 }}>
 			<Book {book} />
 		</div>
 	{/each}
 </section>
-
-<style>
-	section {
-		display: flex;
-		flex-wrap: wrap;
-		justify-items: center;
-	}
-
-	div {
-		margin: 0 10px 10px 0;
-	}
-</style>
