@@ -2,11 +2,14 @@
 	import { onMount } from 'svelte';
 	import Quagga from 'quagga';
 	import { books } from '$lib/stores/books';
+	import { fade } from 'svelte/transition';
 
 	$: console.log($books);
 
 	let audioOk: HTMLAudioElement;
 	let audioError: HTMLAudioElement;
+
+	let showLeadMessage = false;
 
 	// API大量アクセス防止
 	let fetching = false;
@@ -66,7 +69,7 @@
 					type: 'LiveStream',
 					target: document.querySelector('#container'),
 					constraints: {
-						width: innerWidth
+						width: Math.max(innerWidth, 760)
 					}
 				},
 				constraints: {
@@ -83,6 +86,11 @@
 				}
 				console.log('Initialization finished. Ready to start');
 				Quagga.start();
+
+				showLeadMessage = true;
+				setTimeout(() => {
+					showLeadMessage = false;
+				}, 5000);
 			}
 		);
 
@@ -123,7 +131,15 @@
 	<source src="./audio/error.mp3" type="audio/mp3" />
 </audio>
 
-<div id="container" />
+<div id="container" class="relative">
+	{#if showLeadMessage}
+		<p transition:fade
+			class="absolute w-fit bottom-8 left-0 right-0 mx-auto bg-green-400 opacity-75 text-center p-2 rounded-lg"
+		>
+			本のバーコードをスキャンしてください
+		</p>
+	{/if}
+</div>
 
 <style>
 	:global(div > video) {
