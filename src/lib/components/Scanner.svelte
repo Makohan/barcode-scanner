@@ -69,6 +69,7 @@
 					type: 'LiveStream',
 					target: document.querySelector('#container'),
 					constraints: {
+						successTimeout: 500,
 						width: Math.min(innerWidth, 760)
 					}
 				},
@@ -110,7 +111,6 @@
 
 		Quagga.onDetected(function (result) {
 			const barcode = result.codeResult.code;
-
 			// ISBNでなければ処理終了
 			if (barcode.slice(0, 2) != '97') return;
 
