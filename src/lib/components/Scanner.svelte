@@ -86,6 +86,12 @@
 				console.log('Initialization finished. Ready to start');
 				Quagga.start();
 
+				// モバイルのときに幅が小さくなるので強制的にセット
+				const videos = document.getElementsByTagName('video');
+				const drawingBuffer = document.getElementsByClassName('drawingBuffer');
+				videos[0].setAttribute("width", a.toString())
+				drawingBuffer[0].setAttribute("width", a.toString())
+
 				showLeadMessage = true;
 				setTimeout(() => {
 					showLeadMessage = false;
@@ -139,7 +145,7 @@
 		</p>
 	{/if}
 </div>
-<p>{a}</p>
+
 <style>
 	:global(div > video) {
 		display: block;
