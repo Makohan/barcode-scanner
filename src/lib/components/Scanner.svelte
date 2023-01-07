@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import Quagga from '@ericblade/quagga2';
 	import { books } from '$lib/stores/books';
 	import { fade } from 'svelte/transition';
@@ -60,6 +60,8 @@
 		}
 	};
 
+	const dispatch = createEventDispatcher();
+
 	onMount(() => {
 		Quagga.init(
 			{
@@ -83,6 +85,8 @@
 				}
 				console.log('Initialization finished. Ready to start');
 				Quagga.start();
+
+				dispatch('scannerStart');
 
 				showLeadMessage = true;
 				setTimeout(() => {
