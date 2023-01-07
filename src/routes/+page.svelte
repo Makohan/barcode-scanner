@@ -11,7 +11,7 @@
 
 <section>
 	<Scanner />
-	<div class="px-2">
+	<div class="mt-4 px-2">
 		<div>
 			<ButtonCsvDownload />
 			<ButtonResetBooks />
