@@ -2,6 +2,7 @@
 	import { books } from '$lib/stores/books';
 	import Book from './Book.svelte';
 	import { flip } from 'svelte/animate';
+	import BookDeletable from './BookDeletable.svelte';
 
 	// スキャンしたものが最初にくるようにして目視確認しやすくする
 	$: displayBooks = [...$books].reverse();
@@ -10,7 +11,9 @@
 <section class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-w-fit gap-4">
 	{#each displayBooks as book (book.isbn)}
 		<div animate:flip={{ duration: 600 }}>
-			<Book {book} />
+			<BookDeletable isbn={book.isbn}>
+				<Book {book} />
+			</BookDeletable>
 		</div>
 	{/each}
 </section>

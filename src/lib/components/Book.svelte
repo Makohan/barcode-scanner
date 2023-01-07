@@ -4,11 +4,13 @@
 	export let book: Book;
 </script>
 
-<div>
-	<p>{book.isbn}</p>
-	<p>{book.title || '(不明)'}</p>
-	<p>{book.publishedDate || '(不明)'}</p>
+<div class="text-xs">
 	<img src={book.thumbnailUrl} alt={book.title} />
+	<div class="mt-2">
+		<p>{book.isbn}</p>
+		<p>{book.title || '(不明)'}</p>
+		<p>{book.publishedDate || '(不明)'}</p>
+	</div>
 </div>
 
 <style>
