@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { books } from '$lib/stores/books';
+	import Button from './Button.svelte';
 
 	function download() {
 		//ダウンロードするCSVファイル名を指定する
@@ -55,9 +56,4 @@
 	}
 </script>
 
-<button
-	type="button"
-	on:click={download}
-	class="border p-2 rounded hover:bg-gray-100 disabled:hover:bg-white disabled:text-gray-300"
-	disabled={$books.length === 0}>CSVダウンロード</button
->
+<Button on:click={download} disabled={$books.length === 0}>CSVダウンロード</Button>

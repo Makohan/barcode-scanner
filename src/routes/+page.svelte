@@ -1,6 +1,7 @@
 <script lang="ts">
 	import BookList from '$lib/components/BookList.svelte';
-	import CsvDownloadButton from '$lib/components/CsvDownloadButton.svelte';
+	import ButtonCsvDownload from '$lib/components/ButtonCsvDownload.svelte';
+	import ButtonResetBooks from '$lib/components/ButtonResetBooks.svelte';
 	import Scanner from '$lib/components/Scanner.svelte';
 	import { books } from '$lib/stores/books';
 </script>
@@ -12,9 +13,10 @@
 <section>
 	<Scanner />
 	<div class="px-2">
-		{#if $books.length > 0}
-			<CsvDownloadButton />
-		{/if}
+		<div>
+			<ButtonCsvDownload />
+			<ButtonResetBooks />
+		</div>
 		<div class="mt-4">
 			<BookList />
 		</div>
