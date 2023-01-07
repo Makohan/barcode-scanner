@@ -60,6 +60,8 @@
 		}
 	};
 
+	$: a = Math.min(innerWidth, 760)
+
 	onMount(() => {
 		Quagga.init(
 			{
@@ -137,7 +139,7 @@
 		</p>
 	{/if}
 </div>
-
+<p>{a}</p>
 <style>
 	:global(div > video) {
 		display: block;
