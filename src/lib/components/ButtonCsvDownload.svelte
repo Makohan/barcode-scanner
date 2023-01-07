@@ -35,24 +35,18 @@
 		//Blobでデータを作成する
 		const blob = new Blob([bom, data], { type: 'text/csv' });
 
-		//IE10/11用(download属性が機能しないためmsSaveBlobを使用）
-		if (window.navigator.msSaveBlob) {
-			window.navigator.msSaveBlob(blob, filename);
-			//その他ブラウザ
-		} else {
-			//BlobからオブジェクトURLを作成する
-			const url = (window.URL || window.webkitURL).createObjectURL(blob);
-			//ダウンロード用にリンクを作成する
-			const download = document.createElement('a');
-			//リンク先に上記で生成したURLを指定する
-			download.href = url;
-			//download属性にファイル名を指定する
-			download.download = filename;
-			//作成したリンクをクリックしてダウンロードを実行する
-			download.click();
-			//createObjectURLで作成したオブジェクトURLを開放する
-			(window.URL || window.webkitURL).revokeObjectURL(url);
-		}
+		//BlobからオブジェクトURLを作成する
+		const url = (window.URL || window.webkitURL).createObjectURL(blob);
+		//ダウンロード用にリンクを作成する
+		const download = document.createElement('a');
+		//リンク先に上記で生成したURLを指定する
+		download.href = url;
+		//download属性にファイル名を指定する
+		download.download = filename;
+		//作成したリンクをクリックしてダウンロードを実行する
+		download.click();
+		//createObjectURLで作成したオブジェクトURLを開放する
+		(window.URL || window.webkitURL).revokeObjectURL(url);
 	}
 </script>
 

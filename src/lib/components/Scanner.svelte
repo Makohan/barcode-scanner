@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Quagga from 'quagga';
+	import Quagga from '@ericblade/quagga2';
 	import { books } from '$lib/stores/books';
 	import { fade } from 'svelte/transition';
 
@@ -22,37 +22,35 @@
 		try {
 			fetching = true;
 
-			const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`).then(
-				async (res) => {
-					if (!res.ok || res.status !== 200) {
-						audioError.play();
-						alert('APIが失敗しました。');
-						return;
-					}
-
-					audioOk.play();
-
-					const parsed = await res.json();
-					let book;
-					if (!parsed.items) {
-						audioError.play();
-						alert('本の情報を取得できませんでした。');
-					} else {
-						book = parsed.items[0];
-					}
-					console.log(book);
-
-					books.add({
-						isbn,
-						title: book?.volumeInfo?.title,
-						subtitle: book?.volumeInfo?.subtitle,
-						author: book?.volumeInfo?.authors?.join(', '),
-						description: book?.volumeInfo?.description,
-						thumbnailUrl: book?.volumeInfo?.imageLinks?.thumbnail,
-						publishedDate: book?.volumeInfo?.publishedDate
-					});
+			fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`).then(async (res) => {
+				if (!res.ok || res.status !== 200) {
+					audioError.play();
+					alert('APIが失敗しました。');
+					return;
 				}
-			);
+
+				audioOk.play();
+
+				const parsed = await res.json();
+				let book;
+				if (!parsed.items) {
+					audioError.play();
+					alert('本の情報を取得できませんでした。');
+				} else {
+					book = parsed.items[0];
+				}
+				console.log(book);
+
+				books.add({
+					isbn,
+					title: book?.volumeInfo?.title,
+					subtitle: book?.volumeInfo?.subtitle,
+					author: book?.volumeInfo?.authors?.join(', '),
+					description: book?.volumeInfo?.description,
+					thumbnailUrl: book?.volumeInfo?.imageLinks?.thumbnail,
+					publishedDate: book?.volumeInfo?.publishedDate
+				});
+			});
 		} catch (error) {
 			console.log(error);
 		} finally {
@@ -67,14 +65,12 @@
 			{
 				inputStream: {
 					type: 'LiveStream',
-					target: document.querySelector('#container'),
+					target: document.querySelector('#container') ?? undefined,
 					constraints: {
-						successTimeout: 500,
-						width: Math.min(innerWidth, 760)
+						latency: 500,
+						width: Math.min(innerWidth, 760),
+						facingMode: 'environment'
 					}
-				},
-				constraints: {
-					facingMode: 'environment'
 				},
 				decoder: {
 					readers: ['ean_reader']
@@ -96,10 +92,10 @@
 		);
 
 		Quagga.onProcessed(function (result) {
-			var ctx = Quagga.canvas.ctx.overlay;
-			var canvas = Quagga.canvas.dom.overlay;
+			const ctx = Quagga.canvas.ctx.overlay;
+			const canvas = Quagga.canvas.dom.overlay;
 
-			ctx.clearRect(0, 0, parseInt(canvas.width), parseInt(canvas.height));
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 			if (result && result.box) {
 				Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, ctx, {
@@ -112,7 +108,7 @@
 		Quagga.onDetected(function (result) {
 			const barcode = result.codeResult.code;
 			// ISBNでなければ処理終了
-			if (barcode.slice(0, 2) != '97') return;
+			if (barcode?.slice(0, 2) != '97') return;
 
 			addAndSearch(barcode);
 		});

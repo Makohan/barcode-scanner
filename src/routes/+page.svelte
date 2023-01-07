@@ -3,7 +3,6 @@
 	import ButtonCsvDownload from '$lib/components/ButtonCsvDownload.svelte';
 	import ButtonResetBooks from '$lib/components/ButtonResetBooks.svelte';
 	import Scanner from '$lib/components/Scanner.svelte';
-	import { books } from '$lib/stores/books';
 </script>
 
 <svelte:head>
