@@ -20,8 +20,8 @@
 			title.join(','),
 			...$books.map((b) =>
 				[
-					b.isbn,
-					b.title,
+					'"' + b.isbn + '"',
+					'"' + b.title + '"',
 					'"' + b.subtitle + '"',
 					'"' + b.author + '"',
 					'"' + b.description + '"',
