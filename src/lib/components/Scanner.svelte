@@ -3,6 +3,7 @@
 	import Quagga from '@ericblade/quagga2';
 	import { books } from '$lib/stores/books';
 	import { fade } from 'svelte/transition';
+	import { bookApi } from '$lib/api/googleapisBooks';
 
 	$: console.log($books);
 
@@ -15,49 +16,15 @@
 	let fetching = false;
 
 	const addAndSearch = async (isbn: string) => {
-		if (fetching) return;
-		if (books.includes(isbn)) return;
+		if (fetching || books.includes(isbn)) return;
 
-		// 検索API
-		try {
-			fetching = true;
+		fetching = true;
 
-			fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`).then(async (res) => {
-				if (!res.ok || res.status !== 200) {
-					audioError.play();
-					alert('APIが失敗しました。');
-					return;
-				}
+		dispatch('addAndSearch', { isbn });
 
-				audioOk.play();
-
-				const parsed = await res.json();
-				let book;
-				if (!parsed.items) {
-					audioError.play();
-					alert('本の情報を取得できませんでした。');
-				} else {
-					book = parsed.items[0];
-				}
-				console.log(book);
-
-				books.add({
-					isbn,
-					title: book?.volumeInfo?.title,
-					subtitle: book?.volumeInfo?.subtitle,
-					author: book?.volumeInfo?.authors?.join(', '),
-					description: book?.volumeInfo?.description,
-					thumbnailUrl: book?.volumeInfo?.imageLinks?.thumbnail,
-					publishedDate: book?.volumeInfo?.publishedDate
-				});
-			});
-		} catch (error) {
-			console.log(error);
-		} finally {
-			setTimeout(() => {
-				fetching = false;
-			}, 2000);
-		}
+		setTimeout(() => {
+			fetching = false;
+		}, 2000);
 	};
 
 	const dispatch = createEventDispatcher();
