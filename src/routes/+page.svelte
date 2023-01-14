@@ -1,45 +1,28 @@
 <script lang="ts">
-	import { bookApi } from '$lib/api/googleapisBooks';
 	import BookList from '$lib/components/BookList.svelte';
 	import ButtonCsvDownload from '$lib/components/ButtonCsvDownload.svelte';
 	import ButtonResetBooks from '$lib/components/ButtonResetBooks.svelte';
 	import InputIsbn from '$lib/components/InputIsbn.svelte';
+	import Message from '$lib/components/Message.svelte';
 	import Scanner from '$lib/components/Scanner.svelte';
 	import Spinner from '$lib/components/Spinner.svelte';
-	import { books } from '$lib/stores/books';
+	import { addAndSearch } from '$lib/functions/addAndSearch';
 
 	let loading = true;
-
-	const addAndSearch = async (event: CustomEvent) => {
-		try {
-			const isbn = event.detail.isbn.replace(/[^0-9]/g, '');
-			const book = await bookApi(isbn);
-
-			books.add({
-				isbn,
-				title: book?.volumeInfo?.title,
-				subtitle: book?.volumeInfo?.subtitle,
-				author: book?.volumeInfo?.authors?.join(', '),
-				description: book?.volumeInfo?.description,
-				thumbnailUrl: book?.volumeInfo?.imageLinks?.thumbnail,
-				publishedDate: book?.volumeInfo?.publishedDate
-			});
-		} catch (error) {
-			console.log(error);
-		}
-	};
 </script>
 
 <svelte:head>
 	<title>バーコードリーダー</title>
 </svelte:head>
 
+<Message />
+
 <section>
 	<Scanner
 		on:scannerStart={() => {
 			loading = false;
 		}}
-		on:addAndSearch={addAndSearch}
+		on:scan={addAndSearch}
 	/>
 	{#if loading}
 		<Spinner />
@@ -49,7 +32,7 @@
 				<ButtonCsvDownload />
 				<ButtonResetBooks />
 				<div class="ml-4">
-					<InputIsbn on:addAndSearch={addAndSearch} />
+					<InputIsbn on:click={addAndSearch} />
 				</div>
 			</div>
 			<div class="mt-4">

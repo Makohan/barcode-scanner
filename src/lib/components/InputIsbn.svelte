@@ -1,22 +1,32 @@
 <script lang="ts">
 	import { books } from '$lib/stores/books';
+	import { messages } from '$lib/stores/message';
 	import { createEventDispatcher } from 'svelte';
 	import Button from './Button.svelte';
 
 	let isbn = '';
+	const ISBN_LENGTH = 13;
 
 	const dispatch = createEventDispatcher();
 
-	const addAndSearch = () => {
-		dispatch('addAndSearch', { isbn });
+	const click = () => {
+		const numberIsbn = isbn.replace(/[^0-9]/g, '');
+		if (numberIsbn.length !== ISBN_LENGTH) {
+			messages.add({ text: '13桁の数字を入力してください。', type: 'error' });
+			return;
+		}
+
+		if (books.includes(isbn)) {
+			messages.add({ text: '既にスキャン済みの本です。', type: 'error' });
+			return;
+		}
+
+		dispatch('click', { isbn });
 	};
 
 	// 本が追加されたらリセットする
-	books.subscribe((currentBooks) => {
-		const numIsbn = isbn.replace(/[^0-9]/g, '');
-		if (currentBooks.some((b) => b.isbn === numIsbn)) {
-			isbn = '';
-		}
+	books.subscribe(() => {
+		if (books.includes(isbn)) isbn = '';
 	});
 </script>
 
@@ -31,5 +41,5 @@
 		class="mr-2 p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 block w-full"
 		placeholder="97xxxxxxxxxxx（13桁）"
 	/>
-	<Button on:click={addAndSearch}>検索</Button>
+	<Button on:click={click}>検索</Button>
 </div>

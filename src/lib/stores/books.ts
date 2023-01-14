@@ -15,7 +15,10 @@ const createStore = () => {
 
 	return {
 		subscribe,
-		includes: (isbn: string) => get(books).some((b) => b.isbn === isbn),
+		includes: (isbn: string) => {
+			const numberIsbn = isbn.replace(/[^0-9]/g, '');
+			return get(books).some((b) => b.isbn === numberIsbn);
+		},
 		add: (book: Book) => {
 			const currentBooks = get(books);
 			if (!currentBooks.some((b) => b.isbn === book.isbn)) {
