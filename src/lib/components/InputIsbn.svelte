@@ -12,7 +12,7 @@
 	const click = () => {
 		const numberIsbn = isbn.replace(/[^0-9]/g, '');
 		if (numberIsbn.length !== ISBN_LENGTH) {
-			messages.add({ text: '13桁の数字を入力してください。', type: 'error' });
+			messages.add({ text: `13桁の数字を入力してください。今は${numberIsbn.length}桁です。`, type: 'error' });
 			return;
 		}
 
