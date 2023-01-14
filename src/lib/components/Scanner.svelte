@@ -91,7 +91,7 @@
 
 <svelte:window bind:innerWidth />
 
-<div id="container" />
+<div id="container" class="relative" />
 <Audio />
 
 <style>
