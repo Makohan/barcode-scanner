@@ -10,5 +10,7 @@
 		<slot />
 	</main>
 
-	<Footer />
+	<div class="mt-8">
+		<Footer />
+	</div>
 </div>
