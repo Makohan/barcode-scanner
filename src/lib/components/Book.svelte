@@ -2,10 +2,12 @@
 	import type { Book } from '$lib/stores/books';
 
 	export let book: Book;
+
+	const DUMMY_IMG = 'https://dummyimage.com/128x181/fff/000&text=No+Image';
 </script>
 
 <div class="text-xs">
-	<img src={book.thumbnailUrl} alt={book.title} />
+	<img src={book.thumbnailUrl || DUMMY_IMG} alt={book.title} />
 	<div class="mt-2">
 		<p>{book.isbn}</p>
 		<p>{book.title || '(不明)'}</p>
