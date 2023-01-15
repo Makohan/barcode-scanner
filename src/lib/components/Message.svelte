@@ -3,7 +3,7 @@
 	import { fly } from 'svelte/transition';
 </script>
 
-<div class="absolute z-auto w-fit">
+<div class="absolute z-50 w-full">
 	<ul>
 		{#each $messages as message (message.id)}
 			<li
@@ -16,3 +16,9 @@
 		{/each}
 	</ul>
 </div>
+
+<style>
+	div {
+		max-width: 760px;
+	}
+</style>
