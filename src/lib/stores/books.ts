@@ -2,12 +2,13 @@ import { get, writable } from 'svelte/store';
 
 export type Book = {
 	isbn: string;
-	title: string;
-	subtitle: string;
-	author: string;
-	description: string;
-	thumbnailUrl: string;
-	publishedDate: string;
+	title?: string;
+	subtitle?: string;
+	author?: string;
+	description?: string;
+	thumbnailUrl?: string;
+	publishedDate?: string;
+	publisher?: string;
 };
 
 const createStore = () => {

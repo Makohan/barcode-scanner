@@ -13,7 +13,8 @@
 			'author',
 			'description',
 			'thumbnailUrl',
-			'publishedDate'
+			'publishedDate',
+			'publisher'
 		];
 
 		const data = [
@@ -26,7 +27,8 @@
 					'"' + b.author + '"',
 					'"' + b.description + '"',
 					b.thumbnailUrl,
-					b.publishedDate
+					b.publishedDate,
+					'"' + b.publisher + '"'
 				].join(',')
 			)
 		].join('\n');
