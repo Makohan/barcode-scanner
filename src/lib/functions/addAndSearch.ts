@@ -22,7 +22,7 @@ const fetchBook = async (isbn: string) => {
 			title: openBdBook?.onix?.DescriptiveDetail?.TitleDetail?.TitleElement?.TitleText?.content,
 			subtitle: openBdBook?.onix?.DescriptiveDetail?.TitleDetail?.TitleElement?.Subtitle?.content,
 			author: openBdBook?.summary?.author,
-			description: openBdBook?.onix?.CollateralDetail?.TextContent?.map((c) => c?.Text).join(', '),
+			description: openBdBook?.onix?.CollateralDetail?.TextContent?.map((c) => c?.Text).join('\n'),
 			thumbnailUrl: openBdBook?.summary?.cover,
 			publishedDate: openBdBook?.summary?.pubdate,
 			publisher: openBdBook?.summary.publisher
