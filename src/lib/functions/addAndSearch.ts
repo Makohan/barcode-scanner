@@ -14,35 +14,30 @@ export const addAndSearch = async (event: CustomEvent) => {
 };
 
 const fetchBook = async (isbn: string) => {
-	const openBdBook = await openBdApi(isbn);
+	const res = await Promise.all([openBdApi(isbn), googleBooksApi(isbn)]);
 
-	if (openBdBook) {
-		return {
-			isbn,
-			title: openBdBook?.onix?.DescriptiveDetail?.TitleDetail?.TitleElement?.TitleText?.content,
-			subtitle: openBdBook?.onix?.DescriptiveDetail?.TitleDetail?.TitleElement?.Subtitle?.content,
-			author: openBdBook?.summary?.author,
-			description: openBdBook?.onix?.CollateralDetail?.TextContent?.map((c) => c?.Text).join('\n'),
-			thumbnailUrl: openBdBook?.summary?.cover,
-			publishedDate: openBdBook?.summary?.pubdate,
-			publisher: openBdBook?.summary.publisher
-		};
-	}
+	const openBdBook = res[0];
+	const googleBook = res[1];
 
-	const googleBook = await googleBooksApi(isbn);
+	const title = openBdBook
+		? {
+				title: openBdBook?.onix?.DescriptiveDetail?.TitleDetail?.TitleElement?.TitleText?.content,
+				subtitle: openBdBook?.onix?.DescriptiveDetail?.TitleDetail?.TitleElement?.Subtitle?.content
+		  }
+		: {
+				title: googleBook?.volumeInfo?.title,
+				subtitle: googleBook?.volumeInfo?.subtitle
+		  };
 
-	if (googleBook) {
-		return {
-			isbn,
-			title: googleBook?.volumeInfo?.title,
-			subtitle: googleBook?.volumeInfo?.subtitle,
-			author: googleBook?.volumeInfo?.authors?.join(', '),
-			description: googleBook?.volumeInfo?.description,
-			thumbnailUrl: googleBook?.volumeInfo?.imageLinks?.thumbnail,
-			publishedDate: googleBook?.volumeInfo?.publishedDate,
-			publisher: ''
-		};
-	}
-
-	return { isbn };
+	return {
+		isbn,
+		...title,
+		author: openBdBook?.summary?.author || googleBook?.volumeInfo?.authors?.join(' '),
+		description:
+			googleBook?.volumeInfo?.description ||
+			openBdBook?.onix?.CollateralDetail?.TextContent?.map((c) => c?.Text).join('\n'),
+		thumbnailUrl: openBdBook?.summary?.cover || googleBook?.volumeInfo?.imageLinks?.thumbnail,
+		publishedDate: openBdBook?.summary?.pubdate || googleBook?.volumeInfo?.publishedDate,
+		publisher: openBdBook?.summary.publisher
+	};
 };
