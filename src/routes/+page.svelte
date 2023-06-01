@@ -31,12 +31,12 @@
 	{:else}
 		<div class="mt-4 px-2">
 			<div class="flex gap-2 items-center">
-				<Button on:click={() => csvDownload($books)} disabled={$books.length === 0}
-					>CSVダウンロード</Button
-				>
-				<Button on:click={() => resetBooks()} disabled={$books.length === 0}>リセット</Button>
+				<InputIsbn on:click={addAndSearch} />
 				<div class="ml-4">
-					<InputIsbn on:click={addAndSearch} />
+					<Button on:click={() => csvDownload($books)} disabled={$books.length === 0} color="blue"
+						>CSVダウンロード</Button
+					>
+					<Button on:click={() => resetBooks()} disabled={$books.length === 0} color="red">リセット</Button>
 				</div>
 			</div>
 			<div class="mt-4">
