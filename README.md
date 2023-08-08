@@ -6,6 +6,7 @@
 
 - カメラでのバーコード（ISBN）スキャン
 - バーコードをもとに[Google Books APIs](https://developers.google.com/books)、[openBD](https://openbd.jp/)で書籍検索
+- 検索結果をCSVダウンロード
 
 ## 開発者向け
 
