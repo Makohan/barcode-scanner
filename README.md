@@ -5,7 +5,7 @@
 主な機能は下記の通り
 
 - カメラでのバーコード（ISBN）スキャン
-- バーコードをもとに[Google Books APIs](https://developers.google.com/books)で書籍検索
+- バーコードをもとに[Google Books APIs](https://developers.google.com/books)、[openBD](https://openbd.jp/)で書籍検索
 
 ## 開発者向け
 
