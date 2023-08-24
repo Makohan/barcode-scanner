@@ -8,6 +8,10 @@
 - バーコードをもとに[Google Books APIs](https://developers.google.com/books)、[openBD](https://openbd.jp/)で書籍検索
 - 検索結果をCSVダウンロード
 
+## サンプル
+
+https://barcode-scanner-mkin.vercel.app/
+
 ## 開発者向け
 
 `pnpm`でパッケージ管理しています
